@@ -18,7 +18,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 
 @Slf4j
@@ -58,7 +57,7 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateAccessToken(UUID userId, String roleName, String userName) {
+    public String generateAccessToken(Long userId, String roleName, String userName) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
         claims.put("role", roleName);
@@ -96,9 +95,9 @@ public class JwtUtil {
         }
     }
 
-    public UUID extractUserId(String token) {
+    public Long extractUserId(String token) {
         Claims claims = extractAllClaims(token);
-        return claims.get("userId", UUID.class);
+        return claims.get("userId", Long.class);
     }
 
     public String extractRole(String token) {

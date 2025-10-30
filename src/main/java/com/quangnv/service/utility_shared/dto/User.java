@@ -1,17 +1,15 @@
 package com.quangnv.service.utility_shared.dto;
 
 import com.quangnv.service.utility_shared.constant.RoleValue;
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 public class User {
-    UUID id;
+    Long id;
     String username;
 
     String email;
