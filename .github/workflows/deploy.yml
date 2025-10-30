@@ -48,11 +48,13 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
+      - name: Set up Maven settings
+        uses: s4u/maven-settings-action@v4.0.0
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          servers: ${{ secrets.MAVEN_SERVERS }}
+
+      - name: Copy Maven settings for Docker
+        run: mkdir -p .m2 && cp ~/.m2/settings.xml .m2/settings.xml
 
       - name: Deploy version
         run: mvn clean deploy
