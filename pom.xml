@@ -7,7 +7,7 @@
 
     <groupId>com.quangnv.service</groupId>
     <artifactId>utility-shared</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Utility Shared Module</name>
     <description>Shared utilities for all microservices</description>
