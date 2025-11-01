@@ -12,10 +12,20 @@ pipeline {
     }
 
     stages {
+        stage('Validate Start') {
+              steps {
+                   // Bạn sẽ thấy log này ngay lập tức nếu file Jenkinsfile này được chạy
+                   echo "DEBUG: Pipeline đã bắt đầu!"
+                   // In ra tên nhánh hiện tại để kiểm tra điều kiện 'when'
+                   echo "DEBUG: Đang build nhánh: ${env.BRANCH_NAME}"
+              }
+        }
+
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+              steps {
+                    echo "DEBUG: Bắt đầu stage Checkout..."
+                    checkout scm
+              }
         }
 
         stage('Setup Maven Settings') {
