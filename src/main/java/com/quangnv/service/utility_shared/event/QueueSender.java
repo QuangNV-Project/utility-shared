@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class SendQueue {
+public class QueueSender {
     RabbitTemplate rabbitTemplate;
 
     public void send(String message, String exchange, String routing, int priority) {
@@ -31,6 +31,19 @@ public class SendQueue {
             }
         } catch (Exception ex) {
             log.error("Send message to queue Exception :", ex);
+        }
+    }
+
+    public void resend(String topic, String route, String message, int priority) {
+        try {
+            if (StringUtils.hasLength(message)) {
+                rabbitTemplate.convertAndSend(topic, route, message, message1 -> {
+                    message1.getMessageProperties().setPriority(priority);
+                    return message1;
+                });
+            }
+        } catch (Exception ex) {
+            log.error("Send message to queue exception :", ex);
         }
     }
 }

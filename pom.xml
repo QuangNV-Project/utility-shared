@@ -7,7 +7,7 @@
 
     <groupId>com.quangnv.service</groupId>
     <artifactId>utility-shared</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Utility Shared Module</name>
     <description>Shared utilities for all microservices</description>
@@ -43,7 +43,10 @@
 
 
     <dependencies>
-        <!-- Dependency độc lập thì vẫn cần version -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
