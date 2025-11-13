@@ -25,9 +25,9 @@
             <url>https://maven.pkg.github.com/QuangNV-Project/utility-shared</url>
         </repository>
         <snapshotRepository>
-            <id>github-common-web</id>
+            <id>github-utility-shared</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/QuangNV-Project/common-web</url>
+            <url>https://maven.pkg.github.com/QuangNV-Project/utility-shared</url>
         </snapshotRepository>
     </distributionManagement>
 
