@@ -7,7 +7,7 @@
 
     <groupId>com.quangnv.service</groupId>
     <artifactId>utility-shared</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Utility Shared Module</name>
     <description>Shared utilities for all microservices</description>
@@ -20,14 +20,14 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
+            <id>github-utility-shared</id>
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/QuangNV-Project/utility-shared</url>
         </repository>
         <snapshotRepository>
-            <id>github</id>
+            <id>github-common-web</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/QuangNV-Project/utility-shared</url>
+            <url>https://maven.pkg.github.com/QuangNV-Project/common-web</url>
         </snapshotRepository>
     </distributionManagement>
 
