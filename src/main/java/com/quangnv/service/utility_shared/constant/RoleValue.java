@@ -4,12 +4,9 @@ public enum RoleValue {
     ADMIN,
 
     // Manga web
-    MANGA_MANAGE,
-    NOVEL_MANAGE,
+    STORY_MANAGE,
 
     // Shop MMO
     SHOP_MANAGE,
     SHOP_USER
-
-
 }

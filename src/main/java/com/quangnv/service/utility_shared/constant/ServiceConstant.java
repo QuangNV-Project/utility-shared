@@ -21,5 +21,9 @@ public class ServiceConstant {
         public String getService() {
             return service;
         }
+
+        public String toLoadBalancedUri() {
+            return "lb://" + service;
+        }
     }
 }

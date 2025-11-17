@@ -47,35 +47,35 @@ public class GlobalExceptionHandler {
         });
         
         log.error("Validation failed: {}", errors);
-        ApiResponse<Object> response = ApiResponse.error("Validation failed", errors.toString(), HttpStatus.BAD_REQUEST.value());
+        ApiResponse<Object> response = ApiResponse.error(errors.toString(), "Validation failed", HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.badRequest().body(response);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex) {
         log.error("Unexpected error: {}", ex.getMessage(), ex);
-        ApiResponse<Object> response = ApiResponse.error("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        ApiResponse<Object> response = ApiResponse.error(ex.getMessage(),"Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ApiResponse<Object>> handleHttpException(Exception ex) {
         log.error("Http handler error: {}", ex.getMessage(), ex);
-        ApiResponse<Object> response = ApiResponse.error("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        ApiResponse<Object> response = ApiResponse.error(ex.getMessage(),"Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
         log.error("Notfound handler error: {}", ex.getMessage(), ex);
-        ApiResponse<Object> response = ApiResponse.error("Not found", HttpStatus.BAD_REQUEST.value());
+        ApiResponse<Object> response = ApiResponse.error(ex.getMessage(),"Not found", HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleUserNotFoundException(Exception ex) {
         log.error("User notfound handler error: {}", ex.getMessage(), ex);
-        ApiResponse<Object> response = ApiResponse.error("User not found", HttpStatus.NOT_FOUND.value());
+        ApiResponse<Object> response = ApiResponse.error(ex.getMessage(),"User not found", HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
