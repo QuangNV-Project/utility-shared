@@ -19,4 +19,10 @@ public class QueueConstant {
     public static final String NOTIFICATION_ROUTING = "notification.send";
     public static final String NOTIFY_FAIL_QUEUE = "notification.fail.queue";
 
+    // Transaction module
+    public static final String TRANSACTION_EXCHANGE = "transaction.exchange";
+    public static final String TRANSACTION_QUEUE = "transaction.send.queue";
+    public static final String TRANSACTION_ROUTING = "transaction.send";
+    public static final String TRANSACTION_FAIL_QUEUE = "transaction.fail.queue";
+
 }
