@@ -7,7 +7,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class CommonUtil {
@@ -46,5 +48,17 @@ public class CommonUtil {
         businessFailedDto.setQueueName(queue);
         businessFailedDto.setErrorMessage(error);
         return businessFailedDto.toString();
+    }
+
+    /**
+     * Chuyển 1 string thành object Map để đưa vào ApiResponse.data
+     * @param key   key mô tả dữ liệu
+     * @param value giá trị string
+     * @return Map<String, Object>
+     */
+    public static Map<String, Object> stringToObject(String key, String value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
     }
 }
