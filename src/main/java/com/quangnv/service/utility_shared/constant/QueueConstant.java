@@ -25,4 +25,8 @@ public class QueueConstant {
     public static final String TRANSACTION_ROUTING = "transaction.send";
     public static final String TRANSACTION_FAIL_QUEUE = "transaction.fail.queue";
 
+
+    // Action
+    public static final String TELEGRAM_ACTION = "TELEGRAM";
+    public static final String DISCORD_ACTION = "DISCORD";
 }
