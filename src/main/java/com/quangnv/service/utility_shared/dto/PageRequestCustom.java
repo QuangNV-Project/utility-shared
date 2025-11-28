@@ -8,7 +8,6 @@ import jakarta.persistence.Enumerated;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 @SuperBuilder

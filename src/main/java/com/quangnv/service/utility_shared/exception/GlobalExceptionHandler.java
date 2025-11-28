@@ -78,4 +78,11 @@ public class GlobalExceptionHandler {
         ApiResponse<Object> response = ApiResponse.error(ex.getMessage(), "User not found", HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ApiResponse<Object>> handleCustomException(Exception ex) {
+        log.error("Custom exception handler error: {}", ex.getMessage(), ex);
+        ApiResponse<Object> response = ApiResponse.error(ex.getMessage(), "Error", HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
