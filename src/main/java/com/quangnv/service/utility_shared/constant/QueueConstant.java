@@ -25,6 +25,12 @@ public class QueueConstant {
     public static final String TRANSACTION_ROUTING = "transaction.send";
     public static final String TRANSACTION_FAIL_QUEUE = "transaction.fail.queue";
 
+    // Job module
+    public static final String JOB_EXCHANGE = "job.exchange";
+    public static final String JOB_QUEUE = "job.send.queue";
+    public static final String JOB_ROUTING = "job.send";
+    public static final String JOB_FAIL_QUEUE = "job.fail.queue";
+
 
     // Action
     public static final String TELEGRAM_ACTION = "TELEGRAM";
