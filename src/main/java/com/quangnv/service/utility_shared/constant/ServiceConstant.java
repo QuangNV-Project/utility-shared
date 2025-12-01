@@ -10,7 +10,8 @@ public class ServiceConstant {
         PLATFORM_SERVICE("platform-service"),
         AUTH_SERVICE("auth-service"),
         UTILITY_SHARED("utility-shared"),
-        PAYMENT_SERVICE("payment-service");
+        PAYMENT_SERVICE("payment-service"),
+        FIN_TRACK_SERVICE("fin-track-service");
 
         private final String service;
 
