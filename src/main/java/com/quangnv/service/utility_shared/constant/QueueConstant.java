@@ -31,6 +31,12 @@ public class QueueConstant {
     public static final String JOB_ROUTING = "job.send";
     public static final String JOB_FAIL_QUEUE = "job.fail.queue";
 
+    // Saving goals module
+    public static final String SAVING_GOAL_EXCHANGE = "saving_goal.exchange";
+    public static final String SAVING_GOAL_QUEUE = "saving_goal.send.queue";
+    public static final String SAVING_GOAL_ROUTING = "saving_goal.send";
+    public static final String SAVING_GOAL_FAIL_QUEUE = "saving_goal.fail.queue";
+
 
     // Action
     public static final String TELEGRAM_ACTION = "TELEGRAM";
