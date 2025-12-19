@@ -19,13 +19,20 @@ import lombok.experimental.SuperBuilder;
         getterVisibility = JsonAutoDetect.Visibility.NONE
 )
 public class PageRequestCustom {
-    int page;
+    Integer page;
 
-    int size;
+    Integer size;
 
     String sortBy;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     SortDirection sortDirection = SortDirection.DESC;
+
+    public Integer getOffset() {
+        if (page == null || size == null) {
+            return 0;
+        }
+        return (page - 1) * size;
+    }
 }
