@@ -8,5 +8,12 @@ public enum RoleValue {
 
     // Shop MMO
     SHOP_MANAGE,
-    SHOP_USER
+    SHOP_USER;
+
+    public static RoleValue fromAuthority(String authority) {
+        if (authority == null || authority.isBlank()) {
+            throw new IllegalArgumentException("User role is missing");
+        }
+        return RoleValue.valueOf(authority.replace("ROLE_", ""));
+    }
 }

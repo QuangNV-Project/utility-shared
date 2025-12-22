@@ -1,6 +1,7 @@
 package com.quangnv.service.utility_shared.exception;
 
 import com.quangnv.service.utility_shared.dto.ApiResponse;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,15 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
 
-        log.error("Validation failed: {}", errors);
+        log.error("Validations failed: {}", errors);
         return buildResponse("Dữ liệu không hợp lệ", errors, HttpStatus.BAD_REQUEST);
+    }
+
+    // 1. Xử lý Validation Spring mặc định.)
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleValidationException(ValidationException ex) {
+        log.error("Validation failed: {}", ex.getMessage());
+        return buildResponse(ex.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 
     // 2. Xử lý Không tìm thấy Resource (404)
