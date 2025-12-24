@@ -5,4 +5,7 @@ public enum ProjectType {
     SHOP,
     WORKSPACE,
     CASH_CONTROL,
+    ADMIN,
+    PORTFOLIO,
+    BLOG
 }
