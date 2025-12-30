@@ -85,7 +85,14 @@ public class GlobalExceptionHandler {
         return buildResponse(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 7. Xử lý tất cả các lỗi không xác định (500)
+    // 7. Xử lý Lỗi HTTP chung (Dùng cho HttpException của bạn)
+    @ExceptionHandler(JsonConvertException.class)
+    public ResponseEntity<ApiResponse<Object>> handleJsonConvertException(JsonConvertException ex) {
+        log.error("Json convert error: {}", ex.getMessage());
+        return buildResponse(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // 8. Xử lý tất cả các lỗi không xác định (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex) {
         log.error("Unexpected system error: ", ex); // Log full stack trace cho lỗi 500
