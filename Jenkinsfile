@@ -9,13 +9,18 @@ pipeline {
     environment {
         MAVEN_OPTS = '-Xmx1024m'
         MAVEN_SETTINGS_FILE = '.m2/settings.xml'
+
+        // Job data
+        JOB_NAME = "${env.JOB_NAME}"
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
     }
 
     stages {
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+              steps {
+                    echo "DEBUG: Bắt đầu stage Checkout..."
+                    checkout scm
+              }
         }
 
         stage('Setup Maven Settings') {
@@ -42,15 +47,44 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Deployment completed successfully!'
-        }
-        failure {
-            echo 'Deployment failed!'
-        }
         always {
-            cleanWs()
-            sh "rm -f ${MAVEN_SETTINGS_FILE}"
+            script {
+                echo "Pipeline execution completed"
+            }
+        }
+        success {
+            script {
+                withCredentials([
+                    string(credentialsId: 'telegram-bot-token', variable: 'TELEGRAM_BOT_TOKEN'),
+                    string(credentialsId: 'telegram-chat-id', variable: 'TELEGRAM_CHAT_ID')
+                ]) {
+                    sh """
+                        curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                        -d chat_id=$TELEGRAM_CHAT_ID \
+                        -d text="✅ Pipeline succeeded! Service: utility-shared Job: $JOB_NAME (#$BUILD_NUMBER)"
+                    """
+                }
+            }
+        }
+
+        failure {
+            script {
+                withCredentials([
+                    string(credentialsId: 'telegram-bot-token', variable: 'TELEGRAM_BOT_TOKEN'),
+                    string(credentialsId: 'telegram-chat-id', variable: 'TELEGRAM_CHAT_ID')
+                ]) {
+                    sh """
+                        curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                        -d chat_id=$TELEGRAM_CHAT_ID \
+                        -d text="❌ Pipeline failed! Service: utility-shared Job: $JOB_NAME (#$BUILD_NUMBER)"
+                    """
+                }
+            }
+        }
+        cleanup {
+            script {
+                sh 'docker logout || true'
+            }
         }
     }
 }

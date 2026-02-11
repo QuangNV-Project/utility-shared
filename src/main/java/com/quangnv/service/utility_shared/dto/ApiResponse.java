@@ -1,6 +1,5 @@
 package com.quangnv.service.utility_shared.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +17,7 @@ public class ApiResponse<T> {
     boolean success;
     String message;
     T data;
-    String error;
+    T errors;
     int statusCode;
 
     @Builder.Default
@@ -41,20 +40,19 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String error, int statusCode) {
+    public static <T> ApiResponse<T> error(String message, int statusCode) {
         return ApiResponse.<T>builder()
                 .success(false)
-                .message(error)
-                .error(error)
+                .message(message)
                 .statusCode(statusCode)
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String message, String error, int statusCode) {
+    public static <T> ApiResponse<T> error(String message, T errors, int statusCode) {
         return ApiResponse.<T>builder()
                 .success(false)
                 .message(message)
-                .error(error)
+                .errors(errors)
                 .statusCode(statusCode)
                 .build();
     }

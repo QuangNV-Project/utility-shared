@@ -8,7 +8,6 @@ import jakarta.persistence.Enumerated;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 @SuperBuilder
@@ -20,13 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
         getterVisibility = JsonAutoDetect.Visibility.NONE
 )
 public class PageRequestCustom {
-    int page;
+    Integer page;
 
-    int size;
+    Integer size;
 
     String sortBy;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     SortDirection sortDirection = SortDirection.DESC;
+
+    public Integer getOffset() {
+        if (page == null || size == null) {
+            return 0;
+        }
+        return (page - 1) * size;
+    }
 }

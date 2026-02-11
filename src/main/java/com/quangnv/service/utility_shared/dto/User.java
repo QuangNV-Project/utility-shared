@@ -22,7 +22,7 @@ public class User {
     String lastName;
 
     @Enumerated(EnumType.STRING)
-    RoleValue role;
+    RoleValue roles;
 
     boolean enabled = true;
 

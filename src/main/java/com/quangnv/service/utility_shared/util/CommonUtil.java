@@ -3,11 +3,13 @@ package com.quangnv.service.utility_shared.util;
 import com.quangnv.service.utility_shared.dto.BusinessFailedDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Arrays;
-import java.util.List;
+import java.beans.PropertyDescriptor;
+import java.util.*;
 
 @Slf4j
 public class CommonUtil {
@@ -47,4 +49,37 @@ public class CommonUtil {
         businessFailedDto.setErrorMessage(error);
         return businessFailedDto.toString();
     }
+
+    /**
+     * Chuyển 1 string thành object Map để đưa vào ApiResponse.data
+     * @param key   key mô tả dữ liệu
+     * @param value giá trị string
+     * @return Map<String, Object>
+     */
+    public static Map<String, Object> stringToObject(String key, String value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+    /**
+     * Lấy ra các thuộc tính có giá trị null của 1 object
+     *
+     * @param source đối tượng nguồn
+     * @return mảng tên các thuộc tính có giá trị null
+     */
+    public static String[] getNullPropertyNames(Object source) {
+        BeanWrapper src = new BeanWrapperImpl(source);
+        PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (PropertyDescriptor pd : pds) {
+            Object value = src.getPropertyValue(pd.getName());
+            if (value == null) {
+                emptyNames.add(pd.getName());
+            }
+        }
+        return emptyNames.toArray(new String[0]);
+    }
+
 }

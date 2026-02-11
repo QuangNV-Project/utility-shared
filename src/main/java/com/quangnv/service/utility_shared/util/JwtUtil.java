@@ -5,19 +5,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.function.Function;
 
 @Slf4j
@@ -27,22 +22,15 @@ import java.util.function.Function;
 public class JwtUtil {
     JwtProperties properties;
 
-    SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(properties.getSecret().getBytes());
+    /* ================= KEY ================= */
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(
+                properties.getSecret().getBytes(StandardCharsets.UTF_8)
+        );
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
+    /* ================= PARSE ================= */
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
@@ -50,63 +38,92 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
     }
 
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        return resolver.apply(extractAllClaims(token));
     }
 
-    public String generateAccessToken(Long userId, String roleName, String userName) {
+    public Long extractUserId(String token) {
+        return parseToken(token).get("userId", Long.class);
+    }
+
+    public String extractUserName(String token) {
+        return parseToken(token).get("userName", String.class);
+    }
+
+    public List<String> extractRoles(String token) {
+        List<String> roles = parseToken(token).get("roles", List.class);
+        return roles == null ? List.of() : roles;
+    }
+
+    public boolean isRefreshToken(String token) {
+        return "refresh".equals(parseToken(token).get("type", String.class));
+    }
+
+    public boolean isExpired(String token) {
+        return parseToken(token)
+                .getExpiration()
+                .before(new Date());
+    }
+
+    /* ================= GENERATE ================= */
+
+    public String generateAccessToken(Long userId, List<String> roles, String userName) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
-        claims.put("role", roleName);
-        return createToken(claims, userName, properties.getAccessTokenExpiration());
+        claims.put("userName", userName);
+        claims.put("roles", roles);
+        claims.put("type", "access");
+
+        return createToken(
+                claims,
+                userId.toString(),
+                properties.getAccessTokenExpiration()
+        );
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
+    public String generateRefreshToken(Long userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("type", "refresh");
-        return createToken(claims, userDetails.getUsername(), properties.getRefreshTokenExpiration());
-    }
 
+        return createToken(
+                claims,
+                userId.toString(),
+                properties.getRefreshTokenExpiration()
+        );
+    }
 
     private String createToken(Map<String, Object> claims, String subject, Long expiration) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(subject)
-                .issuedAt(new Date(System.currentTimeMillis()))
+                .id(UUID.randomUUID().toString()) // jti
+                .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
+    /* ================= VALIDATE ================= */
 
-    public Boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
-            return !isTokenExpired(token);
+            extractAllClaims(token);
+            return !isExpired(token);
         } catch (Exception e) {
-            log.error("Token validation failed: {}", e.getMessage());
+            log.error("JWT invalid: {}", e.getMessage());
             return false;
         }
     }
 
-    public Long extractUserId(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.get("userId", Long.class);
+    public Claims parseToken(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    public String extractRole(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.get("role", String.class);
-    }
-
-    public boolean isRefreshToken(String token) {
-        Claims claims = extractAllClaims(token);
-        return "refresh".equals(claims.get("type", String.class));
-    }
 }
+
