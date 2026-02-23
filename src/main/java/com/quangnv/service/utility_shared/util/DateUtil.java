@@ -12,6 +12,24 @@ import java.util.Date;
 
 @Slf4j
 public class DateUtil {
+    public static final String FORMAT_YEAR_MONTH = "yyyyMM";
+    public static final String FORMAT_YEAR_MONTH_DAY = "yyyyMMdd";
+    public static final String FORMAT_YEAR_MONTH_DAY_HOUR = "yyyyMMddHH";
+    public static final String FORMAT_YEAR_MONTH_DAY_MINUTE = "yyyyMMddHHmm";
+    public static final String FORMAT_YEAR_MONTH_DAY_SEC = "yyyyMMddHHmmss";
+    public static final String FORMAT_YEAR_MONTH_DAY_SEC_HYPHEN = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_DATE_TO_STRING = "yyyy-MM-dd_HH-mm-ss";
+    public static final String FORMAT_YEAR_MONTH_DAY_HYPHEN = "yyyy-MM-dd";
+    public static final String FORMAT_MINUTE_DAY_MONTH_YEAR_SLASH = "HH:mm dd/MM/yyyy";
+    public static final String FORMAT_DAY_MONTH_YEAR_SEC_SLASH = "dd/MM/yyyy HH:mm:ss";
+
+    public static final String FORMAT_DAY_MONTH_YEAR_SLASH = "dd/MM/yyyy";
+    public static final String FORMAT_MONTH_YEAR_SLASH = "MM/yyyy";
+    public static final String FORMAT_DAY_MONTH_YEAR_SLASH_HOUR_MINUTE = "dd/MM/yyyy HH:mm";
+    public static final String FORMAT_YEAR = "yyyy";
+    public static final String FORMAT_TIME = "HH:mm:ss";
+    public static final String FORMAT_HOUR_MINUTE = "HH:mm";
+    public static final String FORMAT_DAY_MONTH_YEAR_SLASH_STRING = "dd-MM-yyyy_HH-mm-ss";
 
     public static Date getCurrentDate() {
         return Calendar.getInstance().getTime();
