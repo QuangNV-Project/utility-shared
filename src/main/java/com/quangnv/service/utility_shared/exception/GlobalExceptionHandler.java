@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 1. Xử lý Validation (@Valid, @NotBlank, v.v.)
+    //  Xử lý Validation (@Valid, @NotBlank, v.v.)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -38,28 +38,28 @@ public class GlobalExceptionHandler {
         return buildResponse("Dữ liệu không hợp lệ", errors, HttpStatus.BAD_REQUEST);
     }
 
-    // 1. Xử lý Validation Spring mặc định.)
+    // Xử lý Validation Spring mặc định.)
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationException(ValidationException ex) {
         log.error("Validation failed: {}", ex.getMessage());
         return buildResponse(ex.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 
-    // 2. Xử lý Không tìm thấy Resource (404)
+    // Xử lý Không tìm thấy Resource (404)
     @ExceptionHandler({ResourceNotFoundException.class, UserNotFoundException.class, NotFoundException.class})
     public ResponseEntity<ApiResponse<Object>> handleNotFoundException(RuntimeException ex) {
         log.error("Resource not found: {}", ex.getMessage());
         return buildResponse(ex.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 
-    // 3. Xử lý Lỗi nghiệp vụ (Business Logic - 400)
+    // Xử lý Lỗi nghiệp vụ (Business Logic - 400)
     @ExceptionHandler({BusinessException.class, CustomException.class})
     public ResponseEntity<ApiResponse<Object>> handleBusinessException(RuntimeException ex) {
         log.error("Business error: {}", ex.getMessage());
         return buildResponse(ex.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 
-    // 4. Xử lý Xác thực (401 Unauthorized) - Quan trọng để Axios kích hoạt Refresh Token
+    // Xử lý Xác thực (401 Unauthorized) - Quan trọng để Axios kích hoạt Refresh Token
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiResponse<Object>> handleUnauthorizedException(UnauthorizedException ex) {
         log.error("Unauthorized: {}", ex.getMessage());
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // 6. Xử lý Lỗi HTTP chung (Dùng cho HttpException của bạn)
+    // Xử lý Lỗi HTTP chung (Dùng cho HttpException của bạn)
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ApiResponse<Object>> handleHttpException(HttpException ex) {
         log.error("HTTP error: {}", ex.getMessage());
@@ -85,14 +85,14 @@ public class GlobalExceptionHandler {
         return buildResponse(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 7. Xử lý Lỗi HTTP chung (Dùng cho HttpException của bạn)
+    // Xử lý Lỗi HTTP chung (Dùng cho HttpException của bạn)
     @ExceptionHandler(JsonConvertException.class)
     public ResponseEntity<ApiResponse<Object>> handleJsonConvertException(JsonConvertException ex) {
         log.error("Json convert error: {}", ex.getMessage());
         return buildResponse(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 8. Xử lý tất cả các lỗi không xác định (500)
+    // Xử lý tất cả các lỗi không xác định (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex) {
         log.error("Unexpected system error: ", ex); // Log full stack trace cho lỗi 500
