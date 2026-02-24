@@ -81,7 +81,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ApiResponse<Object>> handleHttpException(HttpException ex) {
         log.error("HTTP error: {}", ex.getMessage());
-        // Giả sử HttpException của bạn có chứa HttpStatus bên trong
         return buildResponse(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
