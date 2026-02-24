@@ -99,8 +99,8 @@ public class JwtUtil {
                 .claims(claims)
                 .subject(subject)
                 .id(UUID.randomUUID().toString()) // jti
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .issuedAt(DateUtil.getCurrentDate())
+                .expiration(new Date(DateUtil.getCurrentDate().getTime() + expiration))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
     }
