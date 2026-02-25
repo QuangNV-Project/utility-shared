@@ -2,6 +2,7 @@ package com.quangnv.service.utility_shared.util;
 
 import com.quangnv.service.utility_shared.config.JwtProperties;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AccessLevel;
@@ -107,13 +108,11 @@ public class JwtUtil {
 
     /* ================= VALIDATE ================= */
 
-    public boolean validateToken(String token) {
-        try {
-            extractAllClaims(token);
-            return !isExpired(token);
-        } catch (Exception e) {
-            log.error("JWT invalid: {}", e.getMessage());
-            return false;
+    public void validateToken(String token) {
+        extractAllClaims(token);
+
+        if (isExpired(token)) {
+            throw new JwtException("JWT expired");
         }
     }
 
