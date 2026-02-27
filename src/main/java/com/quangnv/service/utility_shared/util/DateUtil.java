@@ -35,6 +35,12 @@ public class DateUtil {
         return Calendar.getInstance().getTime();
     }
 
+    public static Date getYesterday() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        return cal.getTime();
+    }
+
     public static Timestamp getCurrentTimestamp() {
         return new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
