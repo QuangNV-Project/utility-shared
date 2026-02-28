@@ -1,12 +1,13 @@
 package com.quangnv.service.utility_shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.quangnv.service.utility_shared.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -21,7 +22,7 @@ public class ApiResponse<T> {
     int statusCode;
 
     @Builder.Default
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private Date timestamp = DateUtil.getCurrentTimestamp();
 
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
