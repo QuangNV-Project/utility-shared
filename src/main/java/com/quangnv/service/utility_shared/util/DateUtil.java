@@ -1,12 +1,11 @@
 package com.quangnv.service.utility_shared.util;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.TSFBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -116,11 +115,22 @@ public class DateUtil {
         return null;
     }
 
-    public static LocalTime convertDateToLocalTime(Date date) {
+    public static LocalDate convertDateToLocalTime(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null!");
         }
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static Date converLocalDateToDate(LocalDate localDate) {
+        if (localDate == null) {
+            throw new IllegalArgumentException("Local date cannot be null!");
+        }
+        return Date.from(
+                localDate
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()
+        );
     }
 
 }
