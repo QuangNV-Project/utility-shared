@@ -11,6 +11,7 @@ public class ServiceConstant {
         AUTH_SERVICE("auth-service"),
         UTILITY_SHARED("utility-shared"),
         PAYMENT_SERVICE("payment-service"),
+        MANGA_SERVICE("manga-service"),
         FIN_TRACK_SERVICE("fin-track-service");
 
         private final String service;
